@@ -1,0 +1,22 @@
+.data-card {
+    max-width: 60vw;
+    height: 75vh;
+
+    background-color: rgb(228, 255, 225);
+    margin: 5% 5% 5% 5%;
+
+    border-style: solid;
+    border-color: black;
+    border-radius: 50px;
+
+    overflow: scroll;
+}
+
+.data-card-head {
+    padding: 0% 5% 0% 5%;
+}
+
+.data-card-property {
+    padding: 0% 5% 0% 5%;
+    white-space: nowrap;
+}
