@@ -1,0 +1,28 @@
+{% extends "root.html" %}
+
+{% block content-center %}
+    {% if data %}
+        <div class="data-card left-align">
+            <h2 class="data-card-head">{{data.displayName}}</h2>
+            <div class="divider"></div>
+            <h4 class="data-card-property">Id: {{data.id}}</h4>
+            <h4 class="data-card-property">Name: minecraft:{{data.name}}</h4>
+            <h4 class="data-card-property">Stack Size: {{data.stackSize}}</h4>
+
+            {% if data.enchantCategories %}
+                <h4 class="data-card-property">Enchant Categories: {{data.enchantCategories}}</h4>
+            {% endif %}
+
+            {% if data.repairWith %}
+                <h4 class="data-card-property">Repair With: {{data.repairWith}}</h4>
+            {% endif %}
+
+            {% if data.maxDurability %}
+                <h4 class="data-card-property">Max Durability: {{data.maxDurability}}</h4>
+            {% endif %}
+            <p>Item ID: {{data}}</p>
+        </div>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}

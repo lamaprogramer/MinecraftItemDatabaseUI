@@ -1,0 +1,25 @@
+{% extends "root.html" %}
+
+{% block content-center %}
+    {% if data %}
+        {% if data_size %}
+            <p>{{data_size}}</p>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                    <tr>
+                        <td><a href="{{item.name}}">{{item.displayName}}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}

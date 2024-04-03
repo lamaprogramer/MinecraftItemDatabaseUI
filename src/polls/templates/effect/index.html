@@ -1,0 +1,16 @@
+{% extends "root.html" %}
+
+{% block content-center %}
+    {% if data %}
+        <div class="data-card left-align">
+            <h2 class="data-card-head">{{data.displayName}}</h2>
+            <div class="divider"></div>
+            <h4 class="data-card-property">Id: {{data.id}}</h4>
+            <h4 class="data-card-property">Name: minecraft:{{data.name}}</h4>
+            <h4 class="data-card-property">Type: {{data.type}}</h4>
+            <p>Item ID: {{data}}</p>
+        </div>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}

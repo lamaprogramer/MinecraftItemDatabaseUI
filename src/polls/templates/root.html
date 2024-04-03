@@ -20,24 +20,22 @@
         </nav>
         <div class="container">
             <div class="row">
-                <div class="col s3"></div>
-                <div class="col s6 center">
-                    {% if data %}
-                        <div class="data-card left-align">
-                            <h2 class="data-card-head">{{data.displayName}}</h2>
-                            <div class="divider"></div>
-                            <h4 class="data-card-property">Id: {{data.id}}</h4>
-                            <h4 class="data-card-property">Name: minecraft:{{data.name}}</h4>
-                            <h4 class="data-card-property">Type: {{data.type}}</h4>
-                            <p>Item ID: {{data}}</p>
-                        </div>
-                    {% else %}
-                        <p>No polls are available.</p>
-                    {% endif %}
+                <div class="col s3">
+                    {% block content-left %}
+                    
+                    {% endblock %}
                 </div>
-                <div class="col s3"></div>
+                <div class="col s6 center">
+                    {% block content-center %}
+                    
+                    {% endblock %}
+                </div>
+                <div class="col s3">
+                    {% block content-right %}
+                        
+                    {% endblock %}
+                </div>
             </div>
         </div>
-        <script src="index.js"></script>
     </body>
 </html>

@@ -1,0 +1,33 @@
+{% extends "root.html" %}
+
+{% block content-center %}
+    {% if data %}
+        <div class="data-card left-align">
+            <h2 class="data-card-head">{{data.displayName}}</h2>
+            <div class="divider"></div>
+            <h4 class="data-card-property">Id: {{data.id}}</h4>
+            <h4 class="data-card-property">Name: minecraft:{{data.name}}</h4>
+            <h4 class="data-card-property">Hardness: {{data.hardness}}</h4>
+            <h4 class="data-card-property">Resistance: {{data.resistance}}</h4>
+            <h4 class="data-card-property">Stack Size: {{data.stackSize}}</h4>
+
+            <h4 class="data-card-property">Diggable: {{data.diggable}}</h4>
+            <h4 class="data-card-property">Material: {{data.material}}</h4>
+            <h4 class="data-card-property">Transparent: {{data.transparent}}</h4>
+            <h4 class="data-card-property">Emit Light: {{data.emitLight}}</h4>
+            <h4 class="data-card-property">Filter Light: {{data.filterLight}}</h4>
+
+            <h4 class="data-card-property">Default State: {{data.defaultState}}</h4>
+            <h4 class="data-card-property">Min State Id: {{data.minStateId}}</h4>
+            <h4 class="data-card-property">Max State Id: {{data.maxStateId}}</h4>
+            <h4 class="data-card-property">States: {{data.states}}</h4>
+            <h4 class="data-card-property">Harvest Tools: {{data.harvestTools}}</h4>
+
+            <h4 class="data-card-property">Drops: {{data.drops}}</h4>
+            <h4 class="data-card-property">Bounding Box: {{data.boundingBox}}</h4>
+            <p>Item ID: {{data}}</p>
+        </div>
+    {% else %}
+        <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}
