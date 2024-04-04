@@ -30,7 +30,7 @@ def getItemsById(request, version, link, data, max_items):
         "link": link,
         "version": version,
         "offset": offset,
-        "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION)],
+        "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION) if i < page_num],
         "data_size": page_num,
         "data": data[start_offset : end_offset],
     }
