@@ -13,13 +13,37 @@
             </thead>
             <tbody>
                 {% for item in data %}
+                    {% url link version item.name as item_url %}
                     <tr>
-                        <td><a href="{{item.name}}">{{item.displayName}}</a></td>
+                        <td><a href="{{item_url}}">{{item.displayName}}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     {% else %}
         <p>No polls are available.</p>
+    {% endif %}
+{% endblock %}
+
+{% block pagnation %}
+    {% comment %} {% url link version item.name as item_url %} {% endcomment %}
+    {% if offset == 0 %}
+        <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
+    {% else %}
+        <li class="waves-effect"><a href="?offset={{offset|add:"-1"}}"><i class="material-icons">chevron_left</i></a></li>
+    {% endif %}
+
+    {% for index in pagnation_list %}
+        {% if offset == index %}
+            <li class="active"><a href="?offset={{index}}">{{index}}</a></li>
+        {% else %}
+            <li class="waves-effect"><a href="?offset={{index}}">{{index}}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if offset == data_size %}
+        <li class="disabled"><a href=""><i class="material-icons">chevron_right</i></a></li>
+    {% else %}
+        <li class="waves-effect"><a href="?offset={{offset|add:"1"}}"><i class="material-icons">chevron_right</i></a></li>
     {% endif %}
 {% endblock %}
