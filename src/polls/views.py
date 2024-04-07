@@ -4,7 +4,7 @@ from django.template import loader
 import minecraft_data
 
 MAX_ITEMS = 12
-MAX_PAGNATION = 10
+MAX_PAGNATION = 5
 
 # Utility methods
 def getById(request, type, data, id):
@@ -14,14 +14,15 @@ def getById(request, type, data, id):
     return render(request, f"{type}/index.html", context)
 
 def getItemsById(request, version, link, data, max_items):
+    sorted_data = sorted(data, key=lambda x: x["displayName"])
     offset = int(request.GET.get('offset', 0))
     
     start_offset = offset * max_items
     end_offset = start_offset + max_items
-    data_size = len(data)
+    data_size = len(sorted_data)
     
     if end_offset >= data_size:
-        end_offset = len(data) - 1
+        end_offset = data_size
         
     page_num = (data_size - (data_size % max_items)) / max_items
     nearest_page = offset - (offset % MAX_PAGNATION)
@@ -30,9 +31,9 @@ def getItemsById(request, version, link, data, max_items):
         "link": link,
         "version": version,
         "offset": offset,
-        "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION) if i < page_num],
+        "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION) if i <= page_num],
         "data_size": page_num,
-        "data": data[start_offset : end_offset],
+        "data": sorted_data[start_offset : end_offset],
     }
     return render(request, f"listdata.html", context)
 
