@@ -25,16 +25,22 @@
         <ul class="test sidenav sidenav-fixed red lighten-2">
             <nav id="search">
                 <div class="nav-wrapper">
-                  <form>
-                    <div class="input-field">
-                      <input id="search" type="search" required>
-                      <label class="label-icon" for="search"><i class="material-icons">search</i></label>
-                      <i class="material-icons">close</i>
-                    </div>
-                  </form>
+                    <form>
+                        <div class="input-field">
+                        <input id="search" type="search" required>
+                        <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                        <i class="material-icons">close</i>
+                        </div>
+                    </form>
                 </div>
-              </nav>
+            </nav>
             <li><div class="divider"></div></li>
+            <div class="navigation">
+                {% for key, value in main_pages.items %}
+                    {% url value version as page_url %}
+                    <a class="waves-effect waves-light btn-large" href="{{page_url}}">{{key}}</a>
+                {% endfor %}
+            </div>
             <li><a class="subheader">Subheader</a></li>
             <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
         </ul>

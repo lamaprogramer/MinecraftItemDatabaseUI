@@ -3,8 +3,17 @@ from django.shortcuts import render
 from django.template import loader
 import minecraft_data
 
-MAX_ITEMS = 12
+MAX_ITEMS = 13
 MAX_PAGNATION = 5
+
+MAIN_PAGES = {
+    "Items": "get_list_item", 
+    "Blocks": "get_list_block", 
+    "Effects": "get_list_effect", 
+    "Biomes": "get_list_biome",
+    "Entities": "get_list_entity",
+    "Windows": "get_list_window"
+}
 
 # Utility methods
 def getById(request, type, data, id):
@@ -13,8 +22,8 @@ def getById(request, type, data, id):
     }
     return render(request, f"{type}/index.html", context)
 
-def getItemsById(request, version, link, data, max_items):
-    sorted_data = sorted(data, key=lambda x: x["displayName"])
+def getItemsById(request, version, link, data, max_items, sort_using = "displayName", should_sort = True):
+    sorted_data = sorted(data, key=lambda x: x[sort_using]) if should_sort else data
     offset = int(request.GET.get('offset', 0))
     
     start_offset = offset * max_items
@@ -29,6 +38,7 @@ def getItemsById(request, version, link, data, max_items):
     
     context = {
         "link": link,
+        "main_pages": MAIN_PAGES,
         "version": version,
         "offset": offset,
         "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION) if i <= page_num],
@@ -58,6 +68,14 @@ def get_list_biome(request, version):
     minecraft = minecraft_data(version)
     return getItemsById(request, version, "get_biome", minecraft.biomes_list, MAX_ITEMS)
 
+def get_list_entity(request, version):
+    minecraft = minecraft_data(version)
+    return getItemsById(request, version, "get_entity", minecraft.entities_list, MAX_ITEMS)
+
+def get_list_window(request, version):
+    minecraft = minecraft_data(version)
+    return getItemsById(request, version, "get_window", minecraft.windows_list, MAX_ITEMS, "id")
+
 
 def get_item(request, version, id):
     minecraft = minecraft_data(version)
@@ -74,3 +92,11 @@ def get_effect(request, version, id):
 def get_biome(request, version, id):
     minecraft = minecraft_data(version)
     return getById(request, "biome", minecraft.biomes_name, id)
+
+def get_entity(request, version, id):
+    minecraft = minecraft_data(version)
+    return getById(request, "entity", minecraft.entities_name, id)
+
+def get_window(request, version, id):
+    minecraft = minecraft_data(version)
+    return getById(request, "window", minecraft.windows_name, id)

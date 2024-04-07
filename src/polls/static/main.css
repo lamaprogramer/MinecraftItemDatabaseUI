@@ -8,8 +8,12 @@ body {
     color: #D6E1FF;
 }
 
-#search {
-    /* background-color: #FFCF3C; */
+.navigation {
+    max-height: 50vw;
+}
+.navigation > * {
+    display: block;
+    margin: 5%;
 }
 
 nav {

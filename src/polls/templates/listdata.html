@@ -2,9 +2,9 @@
 
 {% block content-center %}
     {% if data %}
-        {% if data_size %}
+        {% comment %} {% if data_size %}
             <p>{{data_size}}</p>
-        {% endif %}
+        {% endif %} {% endcomment %}
         <table>
             <thead>
                 <tr>
@@ -15,7 +15,11 @@
                 {% for item in data %}
                     {% url link version item.name as item_url %}
                     <tr>
-                        <td><a href="{{item_url}}">{{item.displayName}}</a></td>
+                        {% if item.displayName %}
+                            <td><a href="{{item_url}}">{{item.displayName}}</a></td>
+                        {% else %}
+                            <td><a href="{{item_url}}">{{item.id}}</a></td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>
