@@ -74,7 +74,7 @@ def get_list_entity(request, version):
 
 def get_list_window(request, version):
     minecraft = minecraft_data(version)
-    return getItemsById(request, version, "get_window", minecraft.windows_list, MAX_ITEMS, "id")
+    return getItemsById(request, version, "get_window", minecraft.windows_list, MAX_ITEMS, "name")
 
 
 def get_item(request, version, id):
