@@ -1,10 +1,17 @@
 body {
-    /* background-color: #D6E1FF; */
-    color: #4C4E55;
+    color: white;
+}
+
+#titlebar {
+    box-shadow: none;
+}
+
+#search {
+    margin: 5% 0%;
+    border-radius: 10px;
 }
 
 .nav-wrapper {
-    /* background-color: #3D60FF; */
     color: #D6E1FF;
 }
 
@@ -16,27 +23,19 @@ body {
     margin: 5%;
 }
 
-nav {
-    box-shadow: none;
-}
-
 .sidenav {
-    /* background-color: #3D60FF !important; */
-    color: #D6E1FF;
     box-shadow: none;
+    background-color: #ee6e73;
 }
 
 .data-card {
-    max-width: 60vw;
+    max-width: 100vw;
     height: 75vh;
-
-    /* background-color: #59BAFF; */
-    margin: 5% 5% 5% 5%;
-
-    border-style: solid;
+    background-color: #ee6e73;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    margin: 5% 0% 5% 0%;
     border-color: #4C4E55;
-    border-radius: 50px;
-
+    border-radius: 10px;
     overflow: scroll;
 }
 

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.template import loader
 import minecraft_data
 
-MAX_ITEMS = 13
+MAX_ITEMS = 10
 MAX_PAGNATION = 5
 
 MAIN_PAGES = {
@@ -16,10 +16,30 @@ MAIN_PAGES = {
 }
 
 # Utility methods
-def getById(request, type, data, id):
+
+def sidebarData(version):
+    return {
+        "main_pages": MAIN_PAGES,
+        "version": version,
+    }
+    
+def pagnationData(sorted_data, offset):
+    data_size = len(sorted_data)
+    
+    page_num = (data_size - (data_size % MAX_ITEMS)) / MAX_ITEMS
+    nearest_page = offset - (offset % MAX_PAGNATION)
+    
+    return {
+        "offset": offset,
+        "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION) if i <= page_num],
+        "data_size": page_num,
+    }
+
+def getById(request, version, type, data, id):
     context = {
         "data": data[id],
     }
+    context.update(sidebarData(version))
     return render(request, f"{type}/index.html", context)
 
 def getItemsById(request, version, link, data, max_items, sort_using = "displayName", should_sort = True):
@@ -33,18 +53,20 @@ def getItemsById(request, version, link, data, max_items, sort_using = "displayN
     if end_offset >= data_size:
         end_offset = data_size
         
-    page_num = (data_size - (data_size % max_items)) / max_items
-    nearest_page = offset - (offset % MAX_PAGNATION)
+    # search data
+    search_data = {}
+    for d in sorted_data:
+        search_data[d["name"]] = ""
     
     context = {
         "link": link,
-        "main_pages": MAIN_PAGES,
-        "version": version,
         "offset": offset,
-        "pagnation_list": [i for i in range(nearest_page, nearest_page + MAX_PAGNATION) if i <= page_num],
-        "data_size": page_num,
         "data": sorted_data[start_offset : end_offset],
+        "search_data": search_data
     }
+    
+    context.update(sidebarData(version))
+    context.update(pagnationData(sorted_data, offset))
     return render(request, f"listdata.html", context)
 
 # Create your views here.
@@ -79,24 +101,24 @@ def get_list_window(request, version):
 
 def get_item(request, version, id):
     minecraft = minecraft_data(version)
-    return getById(request, "item", minecraft.items_name, id)
+    return getById(request, version, "item", minecraft.items_name, id)
 
 def get_block(request, version, id):
     minecraft = minecraft_data(version)
-    return getById(request, "block", minecraft.blocks_name, id)
+    return getById(request, version, "block", minecraft.blocks_name, id)
 
 def get_effect(request, version, id):
     minecraft = minecraft_data(version)
-    return getById(request, "effect", minecraft.effects_name, id)
+    return getById(request, version, "effect", minecraft.effects_name, id)
 
 def get_biome(request, version, id):
     minecraft = minecraft_data(version)
-    return getById(request, "biome", minecraft.biomes_name, id)
+    return getById(request, version, "biome", minecraft.biomes_name, id)
 
 def get_entity(request, version, id):
     minecraft = minecraft_data(version)
-    return getById(request, "entity", minecraft.entities_name, id)
+    return getById(request, version, "entity", minecraft.entities_name, id)
 
 def get_window(request, version, id):
     minecraft = minecraft_data(version)
-    return getById(request, "window", minecraft.windows_name, id)
+    return getById(request, version, "window", minecraft.windows_name, id)

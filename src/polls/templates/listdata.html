@@ -1,10 +1,18 @@
 {% extends "root.html" %}
 
 {% block content-center %}
+    <nav id="search">
+        <div class="nav-wrapper">
+            <form onsubmit="return redirect()">
+                <div class="input-field">
+                <input class="autocomplete" id="search-input" type="search" required>
+                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                <i class="material-icons">close</i>
+                </div>
+            </form>
+        </div>
+    </nav>
     {% if data %}
-        {% comment %} {% if data_size %}
-            <p>{{data_size}}</p>
-        {% endif %} {% endcomment %}
         <table>
             <thead>
                 <tr>
@@ -30,7 +38,6 @@
 {% endblock %}
 
 {% block pagination %}
-    {% comment %} {% url link version item.name as item_url %} {% endcomment %}
     {% if offset == 0 %}
         <li class="disabled"><a href=""><i class="material-icons">chevron_left</i></a></li>
     {% else %}
