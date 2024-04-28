@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.template import loader
+from django.shortcuts import redirect
+from django.urls import reverse
 import minecraft_data
 
 MAX_ITEMS = 10
@@ -16,6 +17,13 @@ MAIN_PAGES = {
 }
 
 # Utility methods
+
+def render404Page(version, message):
+    context = {
+        "message": message
+    }
+    context.update(sidebarData(version))
+    return context
 
 def sidebarData(version):
     return {
@@ -36,11 +44,15 @@ def pagnationData(sorted_data, offset):
     }
 
 def getById(request, version, type, data, id):
-    context = {
-        "data": data[id],
-    }
-    context.update(sidebarData(version))
-    return render(request, f"{type}/index.html", context)
+    try:
+        context = {
+            "data": data[id],
+        }
+        context.update(sidebarData(version))
+        return render(request, f"{type}/index.html", context)
+    except KeyError:
+        return render(request, f"error404.html", render404Page(version, f"Data for {type} \"{id}\" not Found"))
+        #raise Http404(f"{type} does not exist")
 
 def getItemsById(request, version, link, data, max_items, sort_using = "displayName", should_sort = True):
     sorted_data = sorted(data, key=lambda x: x[sort_using]) if should_sort else data
@@ -70,55 +82,94 @@ def getItemsById(request, version, link, data, max_items, sort_using = "displayN
     return render(request, f"listdata.html", context)
 
 # Create your views here.
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
+def main_page(request):
+    return redirect(reverse("get_list_item", kwargs={'version': "1.19"}))
+
+def versions(request, version):
+    return redirect(reverse("get_list_item", kwargs={'version': version}))
 
 
 def get_list_item(request, version):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getItemsById(request, version, "get_item", minecraft.items_list, MAX_ITEMS)
 
 def get_list_block(request, version):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getItemsById(request, version, "get_block", minecraft.blocks_list, MAX_ITEMS)
 
 def get_list_effect(request, version):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getItemsById(request, version, "get_effect", minecraft.effects_list, MAX_ITEMS)
 
 def get_list_biome(request, version):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getItemsById(request, version, "get_biome", minecraft.biomes_list, MAX_ITEMS)
 
 def get_list_entity(request, version):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getItemsById(request, version, "get_entity", minecraft.entities_list, MAX_ITEMS)
 
 def get_list_window(request, version):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getItemsById(request, version, "get_window", minecraft.windows_list, MAX_ITEMS, "name")
 
 
 def get_item(request, version, id):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getById(request, version, "item", minecraft.items_name, id)
 
 def get_block(request, version, id):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getById(request, version, "block", minecraft.blocks_name, id)
 
 def get_effect(request, version, id):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getById(request, version, "effect", minecraft.effects_name, id)
 
 def get_biome(request, version, id):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getById(request, version, "biome", minecraft.biomes_name, id)
 
 def get_entity(request, version, id):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getById(request, version, "entity", minecraft.entities_name, id)
 
 def get_window(request, version, id):
-    minecraft = minecraft_data(version)
+    try:
+        minecraft = minecraft_data(version)
+    except KeyError:
+        return render(request, f"error404.html", render404Page("?", f"Version {version} not Found"))
     return getById(request, version, "window", minecraft.windows_name, id)

@@ -12,18 +12,23 @@
         <div class="navbar-fixed">
             <nav id="titlebar">
                 <div class="nav-wrapper">
-                    <a href="#" class="brand-logo center">Logo</a>
+                    <a href="#" class="brand-logo center">Minecraft Data Finder</a>
+                    <a href="#" data-target="sidenav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 </div>
             </nav>
         </div>
 
-        <ul class="test sidenav sidenav-fixed">
+        <ul id="sidenav" class="test sidenav sidenav-fixed">
             <li><h3 class="center">{{ version }}</h3></li>
             <li><div class="divider"></div></li>
             <div class="navigation">
                 {% for key, value in main_pages.items %}
                     {% url value version as page_url %}
-                    <a class="waves-effect waves-light btn-large" href="{{page_url}}">{{key}}</a>
+                    {% if page_url == request.path  %}
+                        <a class="waves-effect waves-light btn-large teal lighten-4" href="{{page_url}}">{{key}}</a>
+                    {% else %}
+                        <a class="waves-effect waves-light btn-large" href="{{page_url}}">{{key}}</a>
+                    {% endif %}
                 {% endfor %}
             </div>
         </ul>

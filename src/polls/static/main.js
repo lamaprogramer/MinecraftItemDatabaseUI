@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
         data: search_data
     }
     var instances = M.Autocomplete.init(elems, options);
+
+    var sidenav_elems = document.querySelectorAll('.sidenav');
+    var sidenav_instances = M.Sidenav.init(sidenav_elems, {});
 });
 
 const redirect = () => {
